@@ -4,6 +4,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Game g = new Game(10,10,15);
+        Game g = new Game(10,10,80);
     }
 }

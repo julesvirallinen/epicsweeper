@@ -10,31 +10,32 @@ public class Board {
     private Map<Node, List<Node>> adjacent;
     private int height;
     private int width;
+    private int bombs;
 
     public Board(int height, int width, int bombs) {
         this.height = height;
         this.width = width;
         this.nodes = new Node[width + 1][height + 1];
         this.adjacent = new HashMap<>();
-        initNodes();
-        initAdjacent();
-        initBombs(bombs);
+        this.bombs = bombs;
+    }
 
-        setNearbyCounts();
+    public void init() {
+        initNodes();
+        placeBombs(bombs);
     }
 
 
     public void initNodes() {
         for (int w = 0; w < width; w++) {
             for (int h = 0; h < height; h++) {
-
                 nodes[w][h] = new Node(false);
-
             }
         }
+        initAdjacent();
     }
 
-    private void initBombs(int amount) {
+    private void placeBombs(int amount) {
         for (int i = 0; i < amount; i++) {
             int[] location = rnd();
             Node n = nodes[location[0]][location[1]];
@@ -42,9 +43,13 @@ public class Board {
                 i--;
                 continue;
             }
-            n.setBomb(true);
-            System.out.println(i);
+            setNodeAsBomb(n);
         }
+    }
+
+    private void setNodeAsBomb(Node n) {
+        n.setBomb(true);
+        increaseNearbyCounts(n);
     }
 
     // gives two random integers that fit on map
@@ -82,6 +87,39 @@ public class Board {
 
     }
 
+
+    public void increaseNearbyCounts(Node node) {
+        for (Node n : adjacent.get(node)) {
+            n.increaseAdjBombs();
+        }
+    }
+
+    public List<Node> getListOfNodes() {
+        ArrayList<Node> n = new ArrayList<>();
+        for (int w = 0; w < width; w++) {
+            for (int h = 0; h < height; h++) {
+                n.add(nodes[w][h]);
+            }
+        }
+        return n;
+    }
+
+    public Node[][] getNodes() {
+        return nodes;
+    }
+
+    //  For development.
+    public void printBoard() {
+        for (int w = 0; w < width; w++) {
+            for (int h = 0; h < height; h++) {
+                System.out.print(nodes[w][h] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    // maybe deprecated below
+
     public void setNearbyCounts() {
         for (int w = 0; w < width; w++) {
             for (int h = 0; h < height; h++) {
@@ -100,17 +138,5 @@ public class Board {
                 cur.increaseAdjBombs();
             }
         }
-    }
-
-
-    //  For development.
-    public void printBoard() {
-        for (int w = 0; w < width; w++) {
-            for (int h = 0; h < height; h++) {
-                System.out.print(nodes[w][h] + " ");
-            }
-            System.out.println();
-        }
-
     }
 }

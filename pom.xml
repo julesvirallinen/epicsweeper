@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>julkku.epicminesweeper</groupId>
+    <groupId>epicminesweeper</groupId>
     <artifactId>EpicMinesweeper</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
@@ -50,10 +50,10 @@
                 <version>1.1.8</version>
                 <configuration>
                     <targetClasses>
-                        <param>julkku.epicminesweeper.*</param>
+                        <param>epicminesweeper.logic.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>julkku.epicminesweeper.*</param>
+                        <param>epicminesweeper.logic.*</param>
                     </targetTests>
                 </configuration>
             </plugin>

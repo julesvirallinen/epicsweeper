@@ -7,7 +7,7 @@ public class Game {
 
     public Game(int height, int width, int bombs) {
         this.board = new Board(height, width, bombs);
-//        board.initNodes();
+        board.init();
         board.printBoard();
     }
 
