@@ -32,20 +32,26 @@ public class BoardTest {
 
     @Test
     public void adjacentBombsWork() {
-        Board b = boardFactory(2, 2, 3);
+        Board b1 = new Board(3, 3, "ooxoooooo");
+        assertTrue(b1.exportBoard().equals("01x011000"));
 
-        int count = 0;
+        Board b2 = new Board(3, 3, "xxxxoxxxx");
+        assertTrue(b2.exportBoard().equals("xxxx8xxxx"));
+
+        Board b3 = new Board(3, 3, "" +
+                "xoo" +
+                "0ox" +
+                "x0x");
+        assertTrue(b3.exportBoard().equals("x2124xx3x"));
+
+    }
+
+    @Test
+    public void allTilesAreHiddenAtFirst() {
+        Board b = boardFactory(10, 10, 10);
         for (Node n : b.getListOfNodes()) {
-            if (n.getAdjBombs() == 3) count++;
+            assertTrue(!n.isRevealed());
         }
-
-        b = boardFactory(2, 2, 1);
-
-        count = 0;
-        for (Node n : b.getListOfNodes()) {
-            if (n.getAdjBombs() == 1) count++;
-        }
-        assertTrue(count == 3);
     }
 
     public Board boardFactory(int h, int w, int b) {

@@ -15,14 +15,41 @@ public class Board {
     public Board(int height, int width, int bombs) {
         this.height = height;
         this.width = width;
+        this.bombs = bombs;
+
+
+    }
+
+    // Creates board from seed, mostly for testing, maybe challenge levels?
+    public Board(int height, int width, String seed) {
+        this.height = height;
+        this.width = width;
         this.nodes = new Node[width + 1][height + 1];
         this.adjacent = new HashMap<>();
-        this.bombs = bombs;
+
+        initNodes();
+        createBoardFromSeed(seed);
+
+    }
+
+    private void createBoardFromSeed(String seed) {
+        // Oispa mod
+
+        int i = 0;
+        for (int w = 0; w < width; w++) {
+            for (int h = 0; h < height; h++) {
+                if (seed.charAt(i) == 'x') setNodeAsBomb(nodes[w][h]);
+                i++;
+            }
+        }
     }
 
     public void init() {
+        this.nodes = new Node[width + 1][height + 1];
+        this.adjacent = new HashMap<>();
         initNodes();
         placeBombs(bombs);
+
     }
 
 
@@ -118,25 +145,15 @@ public class Board {
         }
     }
 
-    // maybe deprecated below
-
-    public void setNearbyCounts() {
+    public String exportBoard() {
+        StringBuilder sb = new StringBuilder();
         for (int w = 0; w < width; w++) {
             for (int h = 0; h < height; h++) {
-                setNodeNearbyCount(w, h);
+                Node n = nodes[w][h];
+                if (n.isBomb()) sb.append("x");
+                else sb.append(n.getAdjBombs());
             }
         }
-    }
-
-    public void setNodeNearbyCount(int w, int h) {
-        Node cur = nodes[w][h];
-        if (cur.isBomb()) {
-            cur.setAdjBombs(0);
-        }
-        for (Node n : adjacent.get(cur)) {
-            if (n.isBomb()) {
-                cur.increaseAdjBombs();
-            }
-        }
+        return sb.toString();
     }
 }

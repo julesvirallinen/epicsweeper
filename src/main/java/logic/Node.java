@@ -11,6 +11,7 @@ public class Node {
     public Node(boolean bomb) {
         this.bomb = bomb;
         adjBombs = 0;
+        revealed = false;
     }
 
     public boolean isFlagged() {
@@ -51,6 +52,7 @@ public class Node {
 
     @Override
     public String toString() {
+//        if(!revealed) return "❑";
         if (bomb) return "x";
         return adjBombs + "";
     }
