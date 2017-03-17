@@ -1,5 +1,7 @@
 ### Time spent :bomb: 
-Päivä | Tunnit | Kuvaus
+Day | Hours | Description
 --------------- | ----- | ------
-13.03.2017 | 2.5h | Aiheen suunnittelua ja repon luonti
+14.03.2017 | 2.5h | Planning and creating rep.
+14.03.2017 | 1.2h | Drafting classes 
+18.03.2017 | 2h | Working on Board and tests
 ... | ... | ...
