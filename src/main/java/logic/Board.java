@@ -1,10 +1,8 @@
 package logic;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Board {
 
@@ -20,23 +18,41 @@ public class Board {
         this.adjacent = new HashMap<>();
         initNodes();
         initAdjacent();
+        initBombs(bombs);
 
         setNearbyCounts();
     }
+
 
     public void initNodes() {
         for (int w = 0; w < width; w++) {
             for (int h = 0; h < height; h++) {
 
-                if ((w == 3 && h == 3) || (w == 3 && h == 4)) {
-                    nodes[w][h] = new Node(true);
+                nodes[w][h] = new Node(false);
 
-                } else {
-                    nodes[w][h] = new Node(false);
-
-                }
             }
         }
+    }
+
+    private void initBombs(int amount) {
+        for (int i = 0; i < amount; i++) {
+            int[] location = rnd();
+            Node n = nodes[location[0]][location[1]];
+            if (n.isBomb()) {
+                i--;
+                continue;
+            }
+            n.setBomb(true);
+            System.out.println(i);
+        }
+    }
+
+    // gives two random integers that fit on map
+    private int[] rnd() {
+        int[] locations = new int[2];
+        locations[0] = ThreadLocalRandom.current().nextInt(0, width);
+        locations[1] = ThreadLocalRandom.current().nextInt(0, height);
+        return locations;
     }
 
     public void initAdjacent() {
@@ -91,7 +107,7 @@ public class Board {
     public void printBoard() {
         for (int w = 0; w < width; w++) {
             for (int h = 0; h < height; h++) {
-                System.out.print(nodes[w][h]);
+                System.out.print(nodes[w][h] + " ");
             }
             System.out.println();
         }
