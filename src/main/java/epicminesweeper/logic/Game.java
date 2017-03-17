@@ -1,4 +1,4 @@
-package logic;
+package epicminesweeper.logic;
 
 
 public class Game {
@@ -7,15 +7,16 @@ public class Game {
 
     public Game(int height, int width, int bombs) {
         this.board = new Board(height, width, bombs);
-        board.init();
-        board.printBoard();
 
     }
 
     public Game(int height, int width, String seed) {
         this.board = new Board(height, width, seed);
-        board.printBoard();
-        System.out.println(board.exportBoard());
+//        System.out.println(board.exportBoard());
+    }
+
+    public Board getBoard(){
+        return board;
     }
 
 }

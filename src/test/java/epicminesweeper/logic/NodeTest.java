@@ -1,5 +1,6 @@
-package logic;
+package epicminesweeper.logic;
 
+import epicminesweeper.logic.Node;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,4 +1,4 @@
-package logic;
+package epicminesweeper.logic;
 
 
 import java.util.*;
@@ -13,49 +13,54 @@ public class Board {
     private int bombs;
 
     public Board(int height, int width, int bombs) {
-        this.height = height;
-        this.width = width;
+        bombs = Math.min(height * width, bombs);
         this.bombs = bombs;
+
+        init(height, width);
+        placeBombs(bombs);
+        printBoard();
 
 
     }
 
     // Creates board from seed, mostly for testing, maybe challenge levels?
     public Board(int height, int width, String seed) {
-        this.height = height;
-        this.width = width;
-        this.nodes = new Node[width + 1][height + 1];
-        this.adjacent = new HashMap<>();
 
-        initNodes();
+        init(height, width);
         createBoardFromSeed(seed);
+        printBoard();
 
     }
+
+    private void init(int height, int width) {
+        height = Math.max(1, height);
+        width = Math.max(1, width);
+        this.height = height;
+        this.width = width;
+
+        this.nodes = new Node[width + 1][height + 1];
+        this.adjacent = new HashMap<>();
+        initNodes();
+
+    }
+
 
     private void createBoardFromSeed(String seed) {
         // Oispa mod
 
         int i = 0;
-        for (int w = 0; w < width; w++) {
-            for (int h = 0; h < height; h++) {
+        for (int h = 0; h < height; h++) {
+            for (int w = 0; w < width; w++) {
                 if (seed.charAt(i) == 'x') setNodeAsBomb(nodes[w][h]);
                 i++;
             }
         }
     }
 
-    public void init() {
-        this.nodes = new Node[width + 1][height + 1];
-        this.adjacent = new HashMap<>();
-        initNodes();
-        placeBombs(bombs);
 
-    }
-
-
-    public void initNodes() {
-        for (int w = 0; w < width; w++) {
-            for (int h = 0; h < height; h++) {
+    private void initNodes() {
+        for (int h = 0; h < height; h++) {
+            for (int w = 0; w < width; w++) {
                 nodes[w][h] = new Node(false);
             }
         }
@@ -87,15 +92,16 @@ public class Board {
         return locations;
     }
 
-    public void initAdjacent() {
-        for (int w = 0; w < width; w++) {
-            for (int h = 0; h < height; h++) {
+    private void initAdjacent() {
+        for (int h = 0; h < height; h++) {
+            for (int w = 0; w < width; w++) {
+
                 setSingleAdjacent(w, h);
             }
         }
     }
 
-    public void setSingleAdjacent(int w, int h) {
+    private void setSingleAdjacent(int w, int h) {
         ArrayList<Node> adj = new ArrayList<>();
         for (int a = -1; a <= 1; a++) {
             for (int b = -1; b <= 1; b++) {
@@ -114,6 +120,29 @@ public class Board {
 
     }
 
+    public void clickTile(int x, int y) {
+        clickNode(nodes[x][y]);
+        printBoard();
+
+    }
+
+    public void clickNode(Node n) {
+        if (n.isRevealed()) {
+            return;
+        }
+        n.setRevealed(true);
+
+        if (n.isBomb()) {
+            System.out.println("BOOM");
+        }
+        if (n.getAdjBombs() == 0) {
+            for (Node a : adjacent.get(n)) {
+                clickNode(a);
+            }
+        }
+
+    }
+
 
     public void increaseNearbyCounts(Node node) {
         for (Node n : adjacent.get(node)) {
@@ -123,8 +152,8 @@ public class Board {
 
     public List<Node> getListOfNodes() {
         ArrayList<Node> n = new ArrayList<>();
-        for (int w = 0; w < width; w++) {
-            for (int h = 0; h < height; h++) {
+        for (int h = 0; h < height; h++) {
+            for (int w = 0; w < width; w++) {
                 n.add(nodes[w][h]);
             }
         }
@@ -136,19 +165,34 @@ public class Board {
     }
 
     //  For development.
-    public void printBoard() {
+    private void printBoard() {
+        System.out.print("   ");
         for (int w = 0; w < width; w++) {
-            for (int h = 0; h < height; h++) {
+            System.out.print(w + " ");
+        }
+        System.out.println();
+        System.out.print("   ");
+
+        for (int w = 0; w < width; w++) {
+            System.out.print("_ ");
+        }
+        System.out.println();
+
+        for (int h = 0; h < height; h++) {
+            System.out.print(h + "| ");
+            for (int w = 0; w < width; w++) {
                 System.out.print(nodes[w][h] + " ");
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public String exportBoard() {
         StringBuilder sb = new StringBuilder();
-        for (int w = 0; w < width; w++) {
-            for (int h = 0; h < height; h++) {
+        for (int h = 0; h < height; h++) {
+
+            for (int w = 0; w < width; w++) {
                 Node n = nodes[w][h];
                 if (n.isBomb()) sb.append("x");
                 else sb.append(n.getAdjBombs());

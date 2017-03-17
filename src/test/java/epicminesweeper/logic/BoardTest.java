@@ -1,4 +1,4 @@
-package logic;
+package epicminesweeper.logic;
 
 import org.junit.Test;
 
@@ -56,7 +56,6 @@ public class BoardTest {
 
     public Board boardFactory(int h, int w, int b) {
         Board board = new Board(h, w, b);
-        board.init();
         return board;
     }
 

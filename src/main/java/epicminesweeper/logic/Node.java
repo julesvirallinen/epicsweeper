@@ -1,4 +1,4 @@
-package logic;
+package epicminesweeper.logic;
 
 public class Node {
 
@@ -52,7 +52,7 @@ public class Node {
 
     @Override
     public String toString() {
-//        if(!revealed) return "❑";
+        if (!revealed) return "❑";
         if (bomb) return "x";
         return adjBombs + "";
     }
