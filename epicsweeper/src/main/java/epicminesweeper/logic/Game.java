@@ -10,12 +10,14 @@ public class Game {
 
     }
 
+
+    // constructor with a seed
     public Game(int height, int width, String seed) {
         this.board = new Board(height, width, seed);
 //        System.out.println(board.exportBoard());
     }
 
-    public Board getBoard(){
+    public Board getBoard() {
         return board;
     }
 
