@@ -51,7 +51,9 @@ public class Board {
         int i = 0;
         for (int h = 0; h < height; h++) {
             for (int w = 0; w < width; w++) {
-                if (seed.charAt(i) == 'x') setNodeAsBomb(nodes[w][h]);
+                if (seed.charAt(i) == 'x') {
+                    setNodeAsBomb(nodes[w][h]);
+                }
                 i++;
             }
         }
@@ -107,10 +109,14 @@ public class Board {
             for (int b = -1; b <= 1; b++) {
 
                 // Skips current node
-                if (a == 0 && b == 0) continue;
+                if (a == 0 && b == 0) {
+                    continue;
+                }
 
                 // Skips nodes that are off-map
-                if (w + a < 0 || w + a > width - 1 || h + b < 0 || h + b > height - 1) continue;
+                if (w + a < 0 || w + a > width - 1 || h + b < 0 || h + b > height - 1) {
+                    continue;
+                }
 
                 // else adds node to list of nearby nodes
                 adj.add(nodes[w + a][h + b]);
@@ -188,14 +194,19 @@ public class Board {
         System.out.println();
     }
 
-    public String exportBoard() {
+    public String exportBoard(Boolean gameMode) {
         StringBuilder sb = new StringBuilder();
         for (int h = 0; h < height; h++) {
 
             for (int w = 0; w < width; w++) {
                 Node n = nodes[w][h];
-                if (n.isBomb()) sb.append("x");
-                else sb.append(n.getAdjBombs());
+                if (gameMode && !n.isRevealed()) {
+                    sb.append("❑");
+                } else if (n.isBomb()) {
+                    sb.append("x");
+                } else {
+                    sb.append(n.getAdjBombs());
+                }
             }
         }
         return sb.toString();

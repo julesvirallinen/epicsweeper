@@ -8,13 +8,14 @@ public class Main {
 //        Game g = new Game(10,15,10);
         Game g = new Game(6, 7, "" +
                 "xoooooo" +
-                "0oxoooo" +
+                "ooxoooo" +
                 "xoxoooo" +
                 "ooooxoo" +
                 "ooooooo" +
                 "ooooooo");
         Board b = g.getBoard();
         b.clickTile(6, 0);
+        System.out.println(b.exportBoard(true));
 
 
 

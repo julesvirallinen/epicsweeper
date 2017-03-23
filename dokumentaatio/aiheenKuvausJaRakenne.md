@@ -21,6 +21,10 @@ The game is personified, either by an arbitrary story, or special graphics, like
 
 ### Structure 
 
+#### UML 
+
+![UML diagram](uml.png)
+
 #### Game
 
 - Has amount of bombs

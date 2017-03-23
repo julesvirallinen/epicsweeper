@@ -52,8 +52,12 @@ public class Node {
 
     @Override
     public String toString() {
-        if (!revealed) return "❑";
-        if (bomb) return "x";
+        if (!revealed) {
+            return "❑";
+        }
+        if (bomb) {
+            return "x";
+        }
         return adjBombs + "";
     }
 }
