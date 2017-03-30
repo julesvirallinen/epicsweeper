@@ -1,4 +1,4 @@
-package epicminesweeper.textUI;
+package epicminesweeper.textui;
 
 
 import epicminesweeper.logic.Game;

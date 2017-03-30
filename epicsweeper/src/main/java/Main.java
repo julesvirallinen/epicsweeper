@@ -1,4 +1,4 @@
-import epicminesweeper.textUI.TextUI;
+import epicminesweeper.textui.TextUI;
 
 public class Main {
 
