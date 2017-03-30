@@ -22,6 +22,15 @@ public class Node {
         this.flagged = flagged;
     }
 
+    public int toggleFlagged() {
+        /* Ehkä elämäni kaunein metodi. Flippaa flagged arvon, ja palauttaa -1 -> 1 riipuen liputtamisen oikeudesta*/
+        flagged = !flagged;
+        return flagged ? (bomb ? 1 : 0) : (bomb ? -1 : 0);
+
+//        if (!flagged) return bomb ? -1 : 0;
+//        return bomb ? 1 : 0;
+    }
+
     public boolean isBomb() {
         return bomb;
     }
@@ -50,13 +59,21 @@ public class Node {
         this.revealed = revealed;
     }
 
+
     @Override
     public String toString() {
+
         if (!revealed) {
+            if (flagged) {
+                return "⚑";
+            }
             return "❑";
         }
         if (bomb) {
             return "x";
+        }
+        if (adjBombs == 0) {
+            return " ";
         }
         return adjBombs + "";
     }

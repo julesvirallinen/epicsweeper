@@ -3,6 +3,7 @@ package epicminesweeper.logic;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class GameTest {
@@ -11,7 +12,6 @@ public class GameTest {
     public void gameCanBeCreatedFromSeed(){
         Game g = new Game(3, 3, "oxooxooxo");
         assertTrue(g.getBoard().getListOfNodes().size() == 9);
-
     }
 
     @Test
@@ -30,5 +30,11 @@ public class GameTest {
     public void boardIsCreated(){
         Game g = new Game(5, 5, 5);
         assertTrue(g.getBoard().getListOfNodes().size() == 25);
+    }
+
+    @Test
+    public void clickNodeReturnsFalseIfNodeIsBomb(){
+        Game g = new Game(2, 2, "xxxx");
+        assertFalse(g.clickTile(0,0));
     }
 }

@@ -1,7 +1,9 @@
 package epicminesweeper.logic;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Board {
@@ -11,25 +13,20 @@ public class Board {
     private int height;
     private int width;
     private int bombs;
+    private int correctlyFlagged;
+    private int revealed;
 
     public Board(int height, int width, int bombs) {
         bombs = Math.min(height * width, bombs);
-        this.bombs = bombs;
-
         init(height, width);
+        this.bombs = 0;
         placeBombs(bombs);
-        printBoard();
-
-
     }
 
     // Creates board from seed, mostly for testing, maybe challenge levels?
     public Board(int height, int width, String seed) {
-
         init(height, width);
         createBoardFromSeed(seed);
-        printBoard();
-
     }
 
     private void init(int height, int width) {
@@ -37,17 +34,13 @@ public class Board {
         width = Math.max(1, width);
         this.height = height;
         this.width = width;
-
-        this.nodes = new Node[width + 1][height + 1];
+        this.nodes = new Node[width][height];
         this.adjacent = new HashMap<>();
         initNodes();
-
     }
 
 
     private void createBoardFromSeed(String seed) {
-        // Oispa mod
-
         int i = 0;
         for (int h = 0; h < height; h++) {
             for (int w = 0; w < width; w++) {
@@ -58,7 +51,6 @@ public class Board {
             }
         }
     }
-
 
     private void initNodes() {
         for (int h = 0; h < height; h++) {
@@ -81,12 +73,6 @@ public class Board {
         }
     }
 
-    private void setNodeAsBomb(Node n) {
-        n.setBomb(true);
-        increaseNearbyCounts(n);
-    }
-
-    // gives two random integers that fit on map
     private int[] rnd() {
         int[] locations = new int[2];
         locations[0] = ThreadLocalRandom.current().nextInt(0, width);
@@ -94,10 +80,22 @@ public class Board {
         return locations;
     }
 
+    private void setNodeAsBomb(Node n) {
+        n.setBomb(true);
+        increaseNearbyCounts(n);
+        bombs++;
+    }
+
+    public void increaseNearbyCounts(Node node) {
+        for (Node n : adjacent.get(node)) {
+            n.increaseAdjBombs();
+        }
+    }
+
+
     private void initAdjacent() {
         for (int h = 0; h < height; h++) {
             for (int w = 0; w < width; w++) {
-
                 setSingleAdjacent(w, h);
             }
         }
@@ -107,54 +105,50 @@ public class Board {
         ArrayList<Node> adj = new ArrayList<>();
         for (int a = -1; a <= 1; a++) {
             for (int b = -1; b <= 1; b++) {
-
-                // Skips current node
                 if (a == 0 && b == 0) {
                     continue;
                 }
-
-                // Skips nodes that are off-map
                 if (w + a < 0 || w + a > width - 1 || h + b < 0 || h + b > height - 1) {
                     continue;
                 }
-
-                // else adds node to list of nearby nodes
                 adj.add(nodes[w + a][h + b]);
             }
         }
         this.adjacent.put(nodes[w][h], adj);
-
     }
 
-    public void clickTile(int x, int y) {
-        clickNode(nodes[x][y]);
-        printBoard();
-
+    public boolean clickTile(int x, int y) {
+        return revealNode(nodes[x][y]);
     }
 
-    public void clickNode(Node n) {
+    public boolean revealNode(Node n) {
         if (n.isRevealed()) {
-            return;
+            return true;
         }
         n.setRevealed(true);
-
+        revealed++;
         if (n.isBomb()) {
-            System.out.println("BOOM");
+            this.revealAll();
+            return false;
         }
         if (n.getAdjBombs() == 0) {
             for (Node a : adjacent.get(n)) {
-                clickNode(a);
+                revealNode(a);
             }
         }
-
+        return true;
     }
 
-
-    public void increaseNearbyCounts(Node node) {
-        for (Node n : adjacent.get(node)) {
-            n.increaseAdjBombs();
+    public void revealAll() {
+        for (Node n : getListOfNodes()) {
+            n.setRevealed(true);
         }
     }
+
+    public boolean hasGameBeenWon() {
+        return correctlyFlagged == bombs || (width * height) - revealed == bombs;
+    }
+
 
     public List<Node> getListOfNodes() {
         ArrayList<Node> n = new ArrayList<>();
@@ -170,34 +164,9 @@ public class Board {
         return nodes;
     }
 
-    //  For development.
-    private void printBoard() {
-        System.out.print("   ");
-        for (int w = 0; w < width; w++) {
-            System.out.print(w + " ");
-        }
-        System.out.println();
-        System.out.print("   ");
-
-        for (int w = 0; w < width; w++) {
-            System.out.print("_ ");
-        }
-        System.out.println();
-
-        for (int h = 0; h < height; h++) {
-            System.out.print(h + "| ");
-            for (int w = 0; w < width; w++) {
-                System.out.print(nodes[w][h] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
     public String exportBoard(Boolean gameMode) {
         StringBuilder sb = new StringBuilder();
         for (int h = 0; h < height; h++) {
-
             for (int w = 0; w < width; w++) {
                 Node n = nodes[w][h];
                 if (gameMode && !n.isRevealed()) {
@@ -210,5 +179,22 @@ public class Board {
             }
         }
         return sb.toString();
+    }
+
+    public int getBombs() {
+        return bombs;
+    }
+
+    public void flagTile(int x, int y) {
+        /*TODO: prevent out of bounds*/
+        correctlyFlagged += nodes[x][y].toggleFlagged();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

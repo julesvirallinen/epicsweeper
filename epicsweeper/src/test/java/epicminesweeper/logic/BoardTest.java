@@ -79,18 +79,53 @@ public class BoardTest {
                 "ooooooo");
         b.clickTile(3, 0);
         assertTrue(b.exportBoard(true).equals("❑❑❑1❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑"));
-
     }
 
-    public void noBombsClickRevealsBoard(){
+    @Test
+    public void gameIsWonIfAllBombsFlagged() {
+        Board b = new Board(4, 4, "" +
+                "xoox" +
+                "oooo" +
+                "oooo" +
+                "xoox");
+        assertFalse(b.hasGameBeenWon());
+        b.flagTile(0,0);
+        b.flagTile(3, 0);
+        b.flagTile(0, 3);
+        assertFalse(b.hasGameBeenWon());
+        b.flagTile(3, 3);
+        assertTrue(b.hasGameBeenWon());
+    }
+
+    @Test
+    public void GameIsWonIfAllNonBombNodesHaveBeenRevealed(){
+        Board b = new Board(2, 2, "oxoo");
+        assertFalse(b.hasGameBeenWon());
+        b.clickTile(0, 0);
+        b.clickTile(1, 1);
+        assertFalse(b.hasGameBeenWon());
+        b.clickTile(0, 1);
+        assertTrue(b.hasGameBeenWon());
+    }
+
+    @Test
+    public void clickingOnBombRevealsBoard(){
+        Board b = new Board(4, 4, "xooxooooooooooox");
+        b.clickTile(0, 0);
+        for (Node n : b.getListOfNodes()) {
+            assertTrue(n.isRevealed());
+        }
+    }
+
+    @Test
+    public void noBombsClickRevealsBoard() {
         Board b = new Board(4, 4, "" +
                 "oooo" +
                 "oooo" +
                 "oooo" +
                 "oooo");
-        b.clickTile(0,0);
-        assertFalse(b.getNodes()[0][0].isRevealed());
-        assertTrue(b.exportBoard(true).equals("❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑"));
+        b.clickTile(0, 0);
+        assertTrue(b.exportBoard(true).equals("0000000000000000"));
     }
 
     public Board boardFactory(int h, int w, int b) {
