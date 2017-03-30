@@ -21,6 +21,31 @@ The game is personified, either by an arbitrary story, or special graphics, like
 
 ### Structure 
 
+#### UI
+
+At the moment the game can be played with a textUI, graphical coming soon. Looks something like this: 
+
+```
+Enter action and x, then y-coordinate, like this: click 1 0
+flag 8 7
+    0  1  2  3  4  5  6  7  8  9  
+    _  _  _  _  _  _  _  _  _  _  
+0|  ❑  1        1  ⚑  ❑  ❑  ❑  ❑  
+1|  ⚑  1        1  1  1  1  ❑  ❑  
+2|  1  1                 1  ⚑  ❑  
+3|        1  1  1        1  1  1  
+4|        1  ⚑  1                 
+5|        1  1  1        1  1  1  
+6|                       1  ❑  ❑  
+7|                       1  1  1  
+8|                                
+9|                                
+
+Enter action and x, then y-coordinate, like this: click 1 0
+flag 8 6
+Congrats, you won!
+```
+
 #### UML 
 
 ![UML diagram](uml.png)

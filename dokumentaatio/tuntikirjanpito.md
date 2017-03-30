@@ -6,4 +6,6 @@ Day | Hours | Description
 17.03.2017 | 2h | Working on Board and tests
 18.03.2017 | 2h | Logiikan ja testien työstämistä 
 22.03.2017 | 2h | vk2 valmistuksen palautusta
-... | ... | ...
+28.03.2017 | 1h | pelin logiikkaa
+28.03.2017 | 1h | pelin logiikkaa
+28.03.2017 | 3h | logiikkaa ja palautuksen valmistelua
