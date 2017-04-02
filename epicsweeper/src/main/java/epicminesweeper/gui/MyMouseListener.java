@@ -1,5 +1,6 @@
 package epicminesweeper.gui;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -20,7 +21,11 @@ public class MyMouseListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         JNode l = (JNode) e.getSource();
-        gui.updateNodes(l);
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            gui.clickNode(l);
+        } else if (SwingUtilities.isRightMouseButton(e)) {
+            gui.rightClickNode(l);
+        }
     }
 
     @Override

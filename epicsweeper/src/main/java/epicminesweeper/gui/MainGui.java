@@ -57,12 +57,22 @@ public class MainGui {
         }
     }
 
-    public void updateNodes(JNode n) {
-        game.getBoard().revealNode(n.getNode());
+    public void updateNodes() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 grid[i][j].updateNode();
             }
         }
+    }
+
+    public void clickNode(JNode node) {
+        game.getBoard().revealNode(node.getNode());
+        updateNodes();
+
+    }
+
+    public void rightClickNode(JNode node) {
+        game.getBoard().flagNode(node.getNode());
+        updateNodes();
     }
 }

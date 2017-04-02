@@ -1,3 +1,5 @@
+import epicminesweeper.gui.MainGui;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -6,6 +8,6 @@ public class Main {
 //        ti.init();
 
 //        Uncomment for almost-playable Graphic UI:
-//        MainGui mg = new MainGui();
+        MainGui mg = new MainGui();
     }
 }

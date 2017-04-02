@@ -190,6 +190,10 @@ public class Board {
         correctlyFlagged += nodes[x][y].toggleFlagged();
     }
 
+    public void flagNode(Node node) {
+        correctlyFlagged += node.toggleFlagged();
+    }
+
     public int getWidth() {
         return width;
     }
