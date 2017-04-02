@@ -1,4 +1,4 @@
-import epicminesweeper.textui.TextUI;
+import epicminesweeper.gui.MainGui;
 
 public class Main {
 
@@ -16,7 +16,9 @@ public class Main {
 //        b.clickTile(6, 0);
 //        System.out.println(b.exportBoard(true));
 
-        TextUI ti = new TextUI();
-        ti.init();
+//        TextUI ti = new TextUI();
+//        ti.init();
+
+        MainGui mg = new MainGui();
     }
 }

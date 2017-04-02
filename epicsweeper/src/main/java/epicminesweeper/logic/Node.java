@@ -67,7 +67,7 @@ public class Node {
             if (flagged) {
                 return "⚑";
             }
-            return "❑";
+            return " ";
         }
         if (bomb) {
             return "x";
