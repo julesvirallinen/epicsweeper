@@ -128,6 +128,7 @@ public class Board {
         n.setRevealed(true);
         revealed++;
         if (n.isBomb()) {
+            n.setGameEnder(true);
             this.revealAll();
             return false;
         }

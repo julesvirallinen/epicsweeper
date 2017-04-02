@@ -50,7 +50,7 @@ public class MainGui {
                 //grid[i][j].setBackground(Color.black);
                 n.setOpaque(true);
                 n.addMouseListener(ml);
-                n.setPreferredSize(new Dimension(20, 20));
+                n.setPreferredSize(new Dimension(30, 30));
                 grid[i][j] = n;
                 panel.add(grid[i][j]);
             }

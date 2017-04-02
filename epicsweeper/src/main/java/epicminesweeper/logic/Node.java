@@ -6,6 +6,7 @@ public class Node {
     private boolean bomb;
     private int adjBombs;
     private boolean revealed;
+    private boolean gameEnder;
 
 
     public Node(boolean bomb) {
@@ -26,9 +27,15 @@ public class Node {
         /* Ehkä elämäni kaunein metodi. Flippaa flagged arvon, ja palauttaa -1 -> 1 riipuen liputtamisen oikeudesta*/
         flagged = !flagged;
         return flagged ? (bomb ? 1 : 0) : (bomb ? -1 : 0);
+    }
 
-//        if (!flagged) return bomb ? -1 : 0;
-//        return bomb ? 1 : 0;
+    public void setGameEnder(Boolean b) {
+        gameEnder = b;
+    }
+
+    public boolean isGameEnder() {
+        return gameEnder;
+
     }
 
     public boolean isBomb() {
@@ -67,7 +74,7 @@ public class Node {
             if (flagged) {
                 return "⚑";
             }
-            return " ";
+            return "❑";
         }
         if (bomb) {
             return "x";
