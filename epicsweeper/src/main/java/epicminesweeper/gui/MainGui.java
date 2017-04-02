@@ -14,7 +14,7 @@ public class MainGui {
     private JNode[][] grid;
 
     public MainGui() {
-        this.game = new Game(3);
+        this.game = new Game(2);
         init();
 
     }
@@ -50,7 +50,7 @@ public class MainGui {
                 //grid[i][j].setBackground(Color.black);
                 n.setOpaque(true);
                 n.addMouseListener(ml);
-                n.setMinimumSize(new Dimension(40, 40));
+                n.setPreferredSize(new Dimension(20, 20));
                 grid[i][j] = n;
                 panel.add(grid[i][j]);
             }
