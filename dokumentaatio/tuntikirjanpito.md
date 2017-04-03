@@ -7,5 +7,6 @@ Day | Hours | Description
 18.03.2017 | 2h | Logiikan ja testien työstämistä 
 22.03.2017 | 2h | vk2 valmistuksen palautusta
 28.03.2017 | 1h | pelin logiikkaa
-28.03.2017 | 1h | pelin logiikkaa
-28.03.2017 | 3h | logiikkaa ja palautuksen valmistelua
+30.03.2017 | 1h | pelin logiikkaa
+30.03.2017 | 3h | logiikkaa ja palautuksen valmistelua
+02.04.     | 5h | GUI ja eteneminen

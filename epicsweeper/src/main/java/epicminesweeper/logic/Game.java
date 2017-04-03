@@ -1,6 +1,5 @@
 package epicminesweeper.logic;
 
-
 public class Game {
 
     private Board board;
@@ -14,22 +13,25 @@ public class Game {
     }
 
 
-    // constructor with a seed
-    public Game(int height, int width, String seed) {
-        this.board = new Board(height, width, seed);
+    // constructor with a serializedBoard
+    public Game(int height, int width, String serializedBoard) {
+        this.board = new Board(height, width, serializedBoard);
         this.bombs = board.getBombs();
 
 //        System.out.println(board.exportBoard());
     }
 
-    public Game(int difficulty) {
-        if (difficulty == 1) {
+    public Game(Difficulty difficulty) {
+        if (difficulty == Difficulty.EASY) {
             this.board = new Board(10, 10, 5);
-        } else if (difficulty == 2) {
-            this.board = new Board(20, 20, 30);
-        } else {
+        } else if (difficulty == Difficulty.INTERMEDIATE) {
+            this.board = new Board(20, 20, 40);
+        } else if (difficulty == Difficulty.HARD) {
             this.board = new Board(30, 30, 50);
+        } else {
+            throw new IllegalArgumentException("Unsupported Difficulty value passed");
         }
+
         this.bombs = board.getBombs();
 
     }

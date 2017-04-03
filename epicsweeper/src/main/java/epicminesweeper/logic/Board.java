@@ -16,17 +16,23 @@ public class Board {
     private int correctlyFlagged;
     private int revealed;
 
+
+    /**
+     * @throws IllegalArgumentException if {@code bombs} is greater than the amount of nodes on the board, that is, {@code bombs > height*width}.
+     */
     public Board(int height, int width, int bombs) {
-        bombs = Math.min(height * width, bombs);
+        if (bombs > height * width) {
+            throw new IllegalArgumentException("Cannot place more bombs than nodes on the board");
+        }
         init(height, width);
         this.bombs = 0;
         placeBombs(bombs);
     }
 
     // Creates board from seed, mostly for testing, maybe challenge levels?
-    public Board(int height, int width, String seed) {
+    public Board(int height, int width, String serializedBoard) {
         init(height, width);
-        createBoardFromSeed(seed);
+        createSerializedBoard(serializedBoard);
     }
 
     private void init(int height, int width) {
@@ -40,26 +46,18 @@ public class Board {
     }
 
 
-    private void createBoardFromSeed(String seed) {
-        int i = 0;
-        for (int h = 0; h < height; h++) {
-            for (int w = 0; w < width; w++) {
+    private void createSerializedBoard(String seed) {
+            foreachCell((w, h, i) -> {
                 if (seed.charAt(i) == 'x') {
                     setNodeAsBomb(nodes[w][h]);
                 }
-                i++;
-            }
+            });
         }
-    }
-
     private void initNodes() {
-        for (int h = 0; h < height; h++) {
-            for (int w = 0; w < width; w++) {
-                nodes[w][h] = new Node(false);
-            }
-        }
+        foreachCell((w, h) -> nodes[w][h] = new Node(false));
         initAdjacent();
     }
+
 
     private void placeBombs(int amount) {
         for (int i = 0; i < amount; i++) {
@@ -86,7 +84,7 @@ public class Board {
         bombs++;
     }
 
-    public void increaseNearbyCounts(Node node) {
+    private void increaseNearbyCounts(Node node) {
         for (Node n : adjacent.get(node)) {
             n.increaseAdjBombs();
         }
@@ -94,11 +92,7 @@ public class Board {
 
 
     private void initAdjacent() {
-        for (int h = 0; h < height; h++) {
-            for (int w = 0; w < width; w++) {
-                setSingleAdjacent(w, h);
-            }
-        }
+         foreachCell((w, h) -> this.setSingleAdjacent(w, h));
     }
 
     private void setSingleAdjacent(int w, int h) {
@@ -153,32 +147,25 @@ public class Board {
 
     public List<Node> getListOfNodes() {
         ArrayList<Node> n = new ArrayList<>();
-        for (int h = 0; h < height; h++) {
-            for (int w = 0; w < width; w++) {
-                n.add(nodes[w][h]);
-            }
-        }
+        foreachCell((w, h) -> n.add(nodes[w][h]));
         return n;
     }
-
     public Node[][] getNodes() {
         return nodes;
     }
 
     public String exportBoard(Boolean gameMode) {
         StringBuilder sb = new StringBuilder();
-        for (int h = 0; h < height; h++) {
-            for (int w = 0; w < width; w++) {
-                Node n = nodes[w][h];
-                if (gameMode && !n.isRevealed()) {
-                    sb.append("❑");
-                } else if (n.isBomb()) {
-                    sb.append("x");
-                } else {
-                    sb.append(n.getAdjBombs());
-                }
+        foreachCell((w, h) -> {
+            Node n = nodes[w][h];
+            if (gameMode && !n.isRevealed()) {
+                sb.append("❑");
+            } else if (n.isBomb()) {
+                sb.append("x");
+            } else {
+                sb.append(n.getAdjBombs());
             }
-        }
+        });
         return sb.toString();
     }
 
@@ -201,5 +188,32 @@ public class Board {
 
     public int getHeight() {
         return height;
+    }
+
+    @FunctionalInterface
+    private interface TableForeachCallback {
+        void apply(int w, int h);
+    }
+
+    @FunctionalInterface
+    private interface TableForeachCallbackWithOrdinal {
+        void apply(int w, int h, int i);
+    }
+
+    private void foreachCell(TableForeachCallback callback) {
+        for (int h = 0; h < height; h++) {
+            for (int w = 0; w < width; w++) {
+                callback.apply(w, h);
+            }
+        }
+    }
+
+    private void foreachCell(TableForeachCallbackWithOrdinal callback) {
+        int i = 0;
+        for (int h = 0; h < height; h++) {
+            for (int w = 0; w < width; w++) {
+                callback.apply(w, h, i++);
+            }
+        }
     }
 }

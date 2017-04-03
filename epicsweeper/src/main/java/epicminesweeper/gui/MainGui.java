@@ -1,11 +1,14 @@
 package epicminesweeper.gui;
 
 import epicminesweeper.logic.Board;
+import epicminesweeper.logic.Difficulty;
 import epicminesweeper.logic.Game;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MainGui {
 
@@ -14,7 +17,7 @@ public class MainGui {
     private JNode[][] grid;
 
     public MainGui() {
-        this.game = new Game(2);
+        this.game = new Game(Difficulty.INTERMEDIATE);
         init();
 
     }
@@ -39,7 +42,7 @@ public class MainGui {
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel);
 
-        MyMouseListener ml = new MyMouseListener(this);
+        MyMouseListener ml = new MyMouseListener();
 
         panel.setLayout(new GridLayout(width, height));
         this.grid = new JNode[width][height];
@@ -74,5 +77,34 @@ public class MainGui {
     public void rightClickNode(JNode node) {
         game.getBoard().flagNode(node.getNode());
         updateNodes();
+    }
+
+    private class MyMouseListener implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            JNode l = (JNode) e.getSource();
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                clickNode(l);
+            } else if (SwingUtilities.isRightMouseButton(e)) {
+                rightClickNode(l);
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
     }
 }

@@ -1,6 +1,7 @@
 package epicminesweeper.textui;
 
 
+import epicminesweeper.logic.Difficulty;
 import epicminesweeper.logic.Game;
 
 import java.util.Scanner;
@@ -19,7 +20,7 @@ public class TextUI {
         System.out.println("Choose difficulty: (1-3)");
         int n = Integer.parseInt(reader.nextLine()); // Scans the next token of the input as an int.
 
-        this.game = new Game(n);
+        this.game = new Game(Difficulty.EASY);
         play(reader);
     }
 

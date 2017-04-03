@@ -38,6 +38,8 @@ public class JNode extends JLabel {
     public void updateNode() {
         if (!node.isRevealed()) {
             setBackground(Color.LIGHT_GRAY);
+            setIcon(null);
+
         }
 
         if (node.isRevealed()) {
@@ -45,13 +47,16 @@ public class JNode extends JLabel {
             if (node.isGameEnder()) {
                 setImage("boom");
             } else if (node.isBomb()) {
-                setImage("gorilla");
+                setImage("bomb");
+//            } else if (node.getAdjBombs() == 0) {
+//                setText("");
             } else {
                 setBackground(Color.WHITE);
+//                setImage(node.getAdjBombs() + "");
                 setText(node.toString());
             }
         } else if (node.isFlagged()) {
-            setImage("cat");
+            setImage("flag");
         }
     }
 
