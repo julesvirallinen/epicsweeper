@@ -10,3 +10,5 @@ Day | Hours | Description
 30.03.2017 | 1h | pelin logiikkaa
 30.03.2017 | 3h | logiikkaa ja palautuksen valmistelua
 02.04.     | 5h | GUI ja eteneminen
+03.04      | 2h | refactoring from code review 
+06.04      | 1h | finishing up the week

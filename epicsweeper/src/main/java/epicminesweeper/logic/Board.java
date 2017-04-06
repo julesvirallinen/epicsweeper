@@ -16,7 +16,6 @@ public class Board {
     private int correctlyFlagged;
     private int revealed;
 
-
     /**
      * @throws IllegalArgumentException if {@code bombs} is greater than the amount of nodes on the board, that is, {@code bombs > height*width}.
      */
@@ -45,19 +44,18 @@ public class Board {
         initNodes();
     }
 
-
     private void createSerializedBoard(String seed) {
-            foreachCell((w, h, i) -> {
-                if (seed.charAt(i) == 'x') {
-                    setNodeAsBomb(nodes[w][h]);
-                }
-            });
-        }
+        foreachCell((w, h, i) -> {
+            if (seed.charAt(i) == 'x') {
+                setNodeAsBomb(nodes[w][h]);
+            }
+        });
+    }
+
     private void initNodes() {
         foreachCell((w, h) -> nodes[w][h] = new Node(false));
         initAdjacent();
     }
-
 
     private void placeBombs(int amount) {
         for (int i = 0; i < amount; i++) {
@@ -92,7 +90,7 @@ public class Board {
 
 
     private void initAdjacent() {
-         foreachCell((w, h) -> this.setSingleAdjacent(w, h));
+        foreachCell(this::setSingleAdjacent);
     }
 
     private void setSingleAdjacent(int w, int h) {
@@ -150,6 +148,7 @@ public class Board {
         foreachCell((w, h) -> n.add(nodes[w][h]));
         return n;
     }
+
     public Node[][] getNodes() {
         return nodes;
     }
@@ -190,16 +189,6 @@ public class Board {
         return height;
     }
 
-    @FunctionalInterface
-    private interface TableForeachCallback {
-        void apply(int w, int h);
-    }
-
-    @FunctionalInterface
-    private interface TableForeachCallbackWithOrdinal {
-        void apply(int w, int h, int i);
-    }
-
     private void foreachCell(TableForeachCallback callback) {
         for (int h = 0; h < height; h++) {
             for (int w = 0; w < width; w++) {
@@ -215,5 +204,15 @@ public class Board {
                 callback.apply(w, h, i++);
             }
         }
+    }
+
+    @FunctionalInterface
+    private interface TableForeachCallback {
+        void apply(int w, int h);
+    }
+
+    @FunctionalInterface
+    private interface TableForeachCallbackWithOrdinal {
+        void apply(int w, int h, int i);
     }
 }
