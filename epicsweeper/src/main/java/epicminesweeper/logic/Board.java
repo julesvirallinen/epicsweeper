@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Keeps track of actual game. Had nodes and initialized board, and handles logic of playing
+ * @author Julius Uusinarkaus
+ */
 public class Board {
 
     private Node[][] nodes;
@@ -17,8 +21,12 @@ public class Board {
     private int revealed;
 
     /**
+     * @param height
+     * @param width
+     * @param bombs
      * @throws IllegalArgumentException if {@code bombs} is greater than the amount of nodes on the board, that is, {@code bombs > height*width}.
      */
+
     public Board(int height, int width, int bombs) {
         if (bombs > height * width) {
             throw new IllegalArgumentException("Cannot place more bombs than nodes on the board");
@@ -29,6 +37,13 @@ public class Board {
     }
 
     // Creates board from seed, mostly for testing, maybe challenge levels?
+
+    /**
+     *
+     * @param height
+     * @param width
+     * @param serializedBoard
+     */
     public Board(int height, int width, String serializedBoard) {
         init(height, width);
         createSerializedBoard(serializedBoard);
@@ -109,10 +124,21 @@ public class Board {
         this.adjacent.put(nodes[w][h], adj);
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean clickTile(int x, int y) {
         return revealNode(nodes[x][y]);
     }
 
+    /**
+     *
+     * @param n
+     * @return
+     */
     public boolean revealNode(Node n) {
         if (n.isRevealed()) {
             return true;
@@ -132,27 +158,46 @@ public class Board {
         return true;
     }
 
+    /**
+     *
+     */
     public void revealAll() {
         for (Node n : getListOfNodes()) {
             n.setRevealed(true);
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean hasGameBeenWon() {
         return correctlyFlagged == bombs || (width * height) - revealed == bombs;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public List<Node> getListOfNodes() {
         ArrayList<Node> n = new ArrayList<>();
         foreachCell((w, h) -> n.add(nodes[w][h]));
         return n;
     }
 
+    /**
+     *
+     * @return
+     */
     public Node[][] getNodes() {
         return nodes;
     }
 
+    /**
+     *
+     * @param gameMode
+     * @return
+     */
     public String exportBoard(Boolean gameMode) {
         StringBuilder sb = new StringBuilder();
         foreachCell((w, h) -> {
@@ -168,23 +213,44 @@ public class Board {
         return sb.toString();
     }
 
+    /**
+     *
+     * @return
+     */
     public int getBombs() {
         return bombs;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public void flagTile(int x, int y) {
         /*TODO: prevent out of bounds*/
         correctlyFlagged += nodes[x][y].toggleFlagged();
     }
 
+    /**
+     *
+     * @param node
+     */
     public void flagNode(Node node) {
         correctlyFlagged += node.toggleFlagged();
     }
 
+    /**
+     *
+     * @return
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getHeight() {
         return height;
     }
