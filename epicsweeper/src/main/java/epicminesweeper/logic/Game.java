@@ -10,7 +10,7 @@ public class Game {
     private int bombs;
 
     /**
-     *
+     * Initializes board of certain size and bomb count.
      * @param height
      * @param width
      * @param bombs
@@ -26,6 +26,7 @@ public class Game {
 
     /**
      *
+     * Creates game with board that from serial, mainly for testing, or challenges.
      * @param height
      * @param width
      * @param serializedBoard
@@ -38,7 +39,7 @@ public class Game {
     }
 
     /**
-     *
+     * Initializes board or difficulty. Probably main constructor of class.
      * @param difficulty
      */
     public Game(Difficulty difficulty) {
@@ -57,7 +58,7 @@ public class Game {
     }
 
     /**
-     *
+     * Used to click on tile by coordinate. Maybe deprecated if clicking happens straight to node.
      * @param x
      * @param y
      * @return
@@ -76,6 +77,7 @@ public class Game {
 
     /**
      *
+     * Flags tile by coordinate. Maybe deprecated if flagging straight to board.
      * @param x
      * @param y
      */
@@ -84,7 +86,7 @@ public class Game {
     }
 
     /**
-     *
+     * Returns true if boards winstate is true.
      * @return
      */
     public boolean gameWon() {

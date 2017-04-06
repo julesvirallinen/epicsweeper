@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
+/**x
  * Keeps track of actual game. Had nodes and initialized board, and handles logic of playing
  * @author Julius Uusinarkaus
  */
@@ -21,9 +21,11 @@ public class Board {
     private int revealed;
 
     /**
+     * Initializes board with width, height, bombs.
      * @param height
      * @param width
      * @param bombs
+     *
      * @throws IllegalArgumentException if {@code bombs} is greater than the amount of nodes on the board, that is, {@code bombs > height*width}.
      */
 
@@ -43,6 +45,12 @@ public class Board {
      * @param height
      * @param width
      * @param serializedBoard
+     * Initializes board from serialized template, mainly for testing.
+     * Example of 3x3 board with bomb in top corner.
+     * oox
+     * ooo
+     * ooo
+     *
      */
     public Board(int height, int width, String serializedBoard) {
         init(height, width);
@@ -168,7 +176,7 @@ public class Board {
     }
 
     /**
-     *
+     * Calculates if game has been won
      * @return
      */
     public boolean hasGameBeenWon() {
@@ -177,6 +185,7 @@ public class Board {
 
     /**
      *
+     * Returns list of nodes in board.
      * @return
      */
     public List<Node> getListOfNodes() {
@@ -187,6 +196,7 @@ public class Board {
 
     /**
      *
+     *
      * @return
      */
     public Node[][] getNodes() {
@@ -194,7 +204,7 @@ public class Board {
     }
 
     /**
-     *
+     * Exports board to string, mainly for testing.
      * @param gameMode
      * @return
      */

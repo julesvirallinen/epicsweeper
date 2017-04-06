@@ -1,7 +1,8 @@
 package epicminesweeper.logic;
 
 /**
- * Manages a single tile. Knows if tile is bomb, knows it's adjascent tiles.
+ * Manages a single tile. Knows if tile is bomb, knows how many tiles next to it are bombs.
+ * Can be printed correctly for a text-based game. 
  * @author Julius Uusinarkaus
  */
 public class Node {
@@ -40,10 +41,13 @@ public class Node {
 
     /**
      *
+     * Toggles flag status of tile, and
+     * returns -1 if tile is bomb, and unflagged.
+     * Returns 1 if tile is correctly flagged.
+     * 0 if tile is not bomb.
      * @return
      */
     public int toggleFlagged() {
-        /* Ehkä elämäni kaunein metodi. Flippaa flagged arvon, ja palauttaa -1 -> 1 riipuen liputtamisen oikeudesta*/
         flagged = !flagged;
         return flagged ? (bomb ? 1 : 0) : (bomb ? -1 : 0);
     }
