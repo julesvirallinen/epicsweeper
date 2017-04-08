@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**x
+/**
+ * x
  * Keeps track of actual game. Had nodes and initialized board, and handles logic of playing
+ *
  * @author Julius Uusinarkaus
  */
 public class Board {
@@ -22,10 +24,10 @@ public class Board {
 
     /**
      * Initializes board with width, height, bombs.
+     *
      * @param height
      * @param width
      * @param bombs
-     *
      * @throws IllegalArgumentException if {@code bombs} is greater than the amount of nodes on the board, that is, {@code bombs > height*width}.
      */
 
@@ -41,16 +43,13 @@ public class Board {
     // Creates board from seed, mostly for testing, maybe challenge levels?
 
     /**
-     *
      * @param height
      * @param width
-     * @param serializedBoard
-     * Initializes board from serialized template, mainly for testing.
-     * Example of 3x3 board with bomb in top corner.
-     * oox
-     * ooo
-     * ooo
-     *
+     * @param serializedBoard Initializes board from serialized template, mainly for testing.
+     *                        Example of 3x3 board with bomb in top corner.
+     *                        oox
+     *                        ooo
+     *                        ooo
      */
     public Board(int height, int width, String serializedBoard) {
         init(height, width);
@@ -133,7 +132,6 @@ public class Board {
     }
 
     /**
-     *
      * @param x
      * @param y
      * @return
@@ -143,7 +141,6 @@ public class Board {
     }
 
     /**
-     *
      * @param n
      * @return
      */
@@ -177,6 +174,7 @@ public class Board {
 
     /**
      * Calculates if game has been won
+     *
      * @return
      */
     public boolean hasGameBeenWon() {
@@ -184,8 +182,8 @@ public class Board {
     }
 
     /**
-     *
      * Returns list of nodes in board.
+     *
      * @return
      */
     public List<Node> getListOfNodes() {
@@ -195,8 +193,6 @@ public class Board {
     }
 
     /**
-     *
-     *
      * @return
      */
     public Node[][] getNodes() {
@@ -205,6 +201,7 @@ public class Board {
 
     /**
      * Exports board to string, mainly for testing.
+     *
      * @param gameMode
      * @return
      */
@@ -224,7 +221,6 @@ public class Board {
     }
 
     /**
-     *
      * @return
      */
     public int getBombs() {
@@ -232,7 +228,6 @@ public class Board {
     }
 
     /**
-     *
      * @param x
      * @param y
      */
@@ -242,15 +237,17 @@ public class Board {
     }
 
     /**
+     * Returns 1/-1 depending on if tile was already flagged.
+     * Also keeps track of correctly flagged nodes in game.
      *
      * @param node
      */
-    public void flagNode(Node node) {
+    public int flagNode(Node node) {
         correctlyFlagged += node.toggleFlagged();
+        return node.isFlagged() ? 1 : -1;
     }
 
     /**
-     *
      * @return
      */
     public int getWidth() {
@@ -258,7 +255,6 @@ public class Board {
     }
 
     /**
-     *
      * @return
      */
     public int getHeight() {

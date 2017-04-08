@@ -33,7 +33,7 @@ public class TextUI {
             int x = Integer.parseInt(command[1]);
             int y = Integer.parseInt(command[2]);
             if (command[0].equals("flag")) {
-                game.flagTile(x, y);
+//                game.flagNode(x, y);
             } else {
                 Boolean cont = game.clickTile(x, y);
                 if (!cont) {

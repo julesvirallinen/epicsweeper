@@ -33,7 +33,7 @@ public class Node {
 
     /**
      *
-     * @param flagged
+     * @param flagged: set's value of flagged to true or false.
      */
     public void setFlagged(boolean flagged) {
         this.flagged = flagged;
@@ -44,12 +44,12 @@ public class Node {
      * Toggles flag status of tile, and
      * returns -1 if tile is bomb, and unflagged.
      * Returns 1 if tile is correctly flagged.
-     * 0 if tile is not bomb.
+     * If a tile is not a bomb, returns -1, so that flagged amount is correct
      * @return
      */
     public int toggleFlagged() {
         flagged = !flagged;
-        return flagged ? (bomb ? 1 : 0) : (bomb ? -1 : 0);
+        return flagged ? (bomb ? 1 : -1) : (bomb ? -1 : 1);
     }
 
     /**

@@ -7,6 +7,7 @@ import epicminesweeper.logic.Game;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -15,9 +16,11 @@ public class MainGui {
     private Game game;
     private JFrame frame;
     private JNode[][] grid;
+    private JPanel bottom;
+    private JLabel flagged;
+    private JButton newGame;
 
     public MainGui() {
-        this.game = new Game(Difficulty.INTERMEDIATE);
         init();
 
     }
@@ -25,16 +28,52 @@ public class MainGui {
     private void init() {
         this.frame = new JFrame("Minesweeper");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1000, 1000);
 
-        createNodes();
+        createTopPanel();
 
         frame.pack();
         frame.setVisible(true);
 
     }
 
-    private void createNodes() {
+    public void newGameButtonClicked(ActionEvent e) {
+        startGame();
+        frame.pack();
+    }
 
+
+    private void startGame() {
+        createGameBoard();
+        createTopPanel();
+        updateBoard();
+    }
+
+
+    private void createTopPanel() {
+        JPanel panel = new JPanel();
+        frame.getContentPane().add(panel, BorderLayout.PAGE_END);
+        JLabel n = new JLabel("Welcome");
+//        n.setPreferredSize(new Dimension(80, 30));
+        this.bottom = panel;
+        this.flagged = n;
+        panel.add(n);
+
+        JButton b1 = new JButton();
+        b1.setSize(400, 400);
+        b1.setVisible(true);
+        b1.setText("New game");
+        b1.setActionCommand("new game");
+        b1.addActionListener(this::newGameButtonClicked);
+        panel.add(b1);
+
+
+    }
+
+    private void createGameBoard() {
+        this.game = new Game(Difficulty.EASY);
+
+        frame.getContentPane().removeAll();
         Board b = game.getBoard();
         int width = b.getWidth();
         int height = b.getHeight();
@@ -60,23 +99,28 @@ public class MainGui {
         }
     }
 
-    public void updateNodes() {
+    public void updateBoard() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 grid[i][j].updateNode();
             }
         }
+        updateFlagged();
+    }
+
+    private void updateFlagged() {
+        this.flagged.setText(game.getBombs() - game.getFlagged() + " | " + (game.gameWon() ? "Game won" : "Game not won"));
     }
 
     public void clickNode(JNode node) {
         game.getBoard().revealNode(node.getNode());
-        updateNodes();
+        updateBoard();
 
     }
 
     public void rightClickNode(JNode node) {
-        game.getBoard().flagNode(node.getNode());
-        updateNodes();
+        game.flagNode(node.getNode());
+        updateBoard();
     }
 
     private class MyMouseListener implements MouseListener {
