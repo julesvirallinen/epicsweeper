@@ -1,4 +1,4 @@
-### Time spent :bomb: 
+### :bomb: Time spent :bomb: 
 Day | Hours | Description
 --------------- | ----- | ------
 14.03.2017 | 2.5h | Planning and creating rep.
@@ -12,3 +12,5 @@ Day | Hours | Description
 02.04.     | 5h | GUI ja eteneminen
 03.04      | 2h | refactoring from code review 
 06.04      | 1h | finishing up the week
+06.04      | 0.25h| Finishing javadocs
+08.04      |1h| Worked on GUI
