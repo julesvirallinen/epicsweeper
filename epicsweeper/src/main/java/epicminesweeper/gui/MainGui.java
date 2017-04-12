@@ -16,9 +16,12 @@ public class MainGui {
     private Game game;
     private JFrame frame;
     private JNode[][] grid;
-    private JPanel bottom;
+    private JPanel bottomPanel;
     private JLabel flagged;
     private JButton newGame;
+    private JLabel timer;
+    private long startTime;
+    private Timer sTimer;
 
     public MainGui() {
         init();
@@ -37,42 +40,42 @@ public class MainGui {
 
     }
 
-    public void newGameButtonClicked(ActionEvent e) {
-        startGame();
-        frame.pack();
-    }
 
-
-    private void startGame() {
+    private void startGame(ActionEvent e) {
         createGameBoard();
         createTopPanel();
         updateBoard();
+        frame.pack();
+
+        this.sTimer = new Timer(500, e1 -> timer.setText((System.currentTimeMillis() - startTime) / 1000 + ""));
+        sTimer.start();
+
     }
 
 
     private void createTopPanel() {
-        JPanel panel = new JPanel();
-        frame.getContentPane().add(panel, BorderLayout.PAGE_END);
-        JLabel n = new JLabel("Welcome");
 //        n.setPreferredSize(new Dimension(80, 30));
-        this.bottom = panel;
-        this.flagged = n;
-        panel.add(n);
+        this.bottomPanel = new JPanel();
+        this.flagged = new JLabel("Welcome");
+        this.timer = new JLabel("0");
+        frame.getContentPane().add(bottomPanel, BorderLayout.PAGE_END);
+
+        bottomPanel.add(flagged);
+        bottomPanel.add(timer);
 
         JButton b1 = new JButton();
         b1.setSize(400, 400);
         b1.setVisible(true);
         b1.setText("New game");
         b1.setActionCommand("new game");
-        b1.addActionListener(this::newGameButtonClicked);
-        panel.add(b1);
-
-
+        b1.addActionListener(this::startGame);
+        bottomPanel.add(b1);
     }
 
-    private void createGameBoard() {
-        this.game = new Game(Difficulty.EASY);
 
+    private void createGameBoard() {
+        this.game = new Game(Difficulty.INTERMEDIATE);
+        this.startTime = game.getTimeStarted();
         frame.getContentPane().removeAll();
         Board b = game.getBoard();
         int width = b.getWidth();
@@ -89,7 +92,6 @@ public class MainGui {
             for (int j = 0; j < height; j++) {
                 JNode n = new JNode(b.getNodes()[i][j]);
                 n.setBorder(new LineBorder(Color.BLACK));
-                //grid[i][j].setBackground(Color.black);
                 n.setOpaque(true);
                 n.addMouseListener(ml);
                 n.setPreferredSize(new Dimension(30, 30));
@@ -106,14 +108,17 @@ public class MainGui {
             }
         }
         updateFlagged();
+
     }
 
     private void updateFlagged() {
-        this.flagged.setText(game.getBombs() - game.getFlagged() + " | " + (game.gameWon() ? "Game won" : "Game not won"));
+        this.flagged.setText(game.getBombsLeft() + " | " + (game.gameWon() ? "Game won" : "Game not won") + "| ");
     }
 
     public void clickNode(JNode node) {
-        game.getBoard().revealNode(node.getNode());
+        if (!game.clickNode(node.getNode())) {
+            sTimer.stop();
+        }
         updateBoard();
 
     }
@@ -151,4 +156,5 @@ public class MainGui {
         public void mouseExited(MouseEvent e) {
         }
     }
+
 }

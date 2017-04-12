@@ -232,7 +232,7 @@ public class Board {
      * @param y
      */
     public void flagTile(int x, int y) {
-        /*TODO: prevent out of bounds*/
+        /*Used mainly for testing*/
         correctlyFlagged += nodes[x][y].toggleFlagged();
     }
 

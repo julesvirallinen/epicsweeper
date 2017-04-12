@@ -13,9 +13,9 @@ public class Node {
     private boolean revealed;
     private boolean gameEnder;
 
-    /**
+    /** Creates a new node.
      *
-     * @param bomb
+     * @param bomb Determines if node is created as bombs.
      */
     public Node(boolean bomb) {
         this.bomb = bomb;
@@ -25,7 +25,7 @@ public class Node {
 
     /**
      *
-     * @return
+     * @return returns true if node is flagged.
      */
     public boolean isFlagged() {
         return flagged;
@@ -33,7 +33,7 @@ public class Node {
 
     /**
      *
-     * @param flagged: set's value of flagged to true or false.
+     * @param flagged  set's value of flagged to true or false.
      */
     public void setFlagged(boolean flagged) {
         this.flagged = flagged;
@@ -45,7 +45,7 @@ public class Node {
      * returns -1 if tile is bomb, and unflagged.
      * Returns 1 if tile is correctly flagged.
      * If a tile is not a bomb, returns -1, so that flagged amount is correct
-     * @return
+     * @return ^
      */
     public int toggleFlagged() {
         flagged = !flagged;
@@ -54,7 +54,7 @@ public class Node {
 
     /**
      *
-     * @param b
+     * @param b Sets this node as node that ended game.
      */
     public void setGameEnder(Boolean b) {
         gameEnder = b;
@@ -62,7 +62,7 @@ public class Node {
 
     /**
      *
-     * @return
+     * @return Returns true if this node ended game.
      */
     public boolean isGameEnder() {
         return gameEnder;
@@ -102,7 +102,7 @@ public class Node {
     }
 
     /**
-     *
+     * Increases amount of adjascent bombs by one.
      */
     public void increaseAdjBombs() {
         adjBombs++;

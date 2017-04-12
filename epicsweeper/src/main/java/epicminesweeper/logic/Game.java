@@ -3,47 +3,42 @@ package epicminesweeper.logic;
 /**
  * Manages a game. Has stats on clicks and timer, and has a board for the actual game.
  *
- * @author Julius uusinarkaus
+ * @author Julius Uusinarkaus
  */
 public class Game {
 
     private Board board;
-    private int bombs;
-    private int flagged;
+    private GameStats stats;
 
     /**
      * Initializes board of certain size and bomb count.
      *
-     * @param height
-     * @param width
-     * @param bombs
+     * @param height Height of board to be created
+     * @param width  Width of board to be created
+     * @param bombs  Amount of bombs on board
      */
     public Game(int height, int width, int bombs) {
         this.board = new Board(height, width, bombs);
-        this.bombs = board.getBombs();
+
+        startGame();
     }
-
-
-    // constructor with a serializedBoard
 
     /**
      * Creates game with board that from serial, mainly for testing, or challenges.
      *
-     * @param height
-     * @param width
-     * @param serializedBoard
+     * @param height          height of serialized board
+     * @param width           width of serialized board
+     * @param serializedBoard "seed" for board, eg "ooxoooooo", for board of 3x3 with bomb in top corner.
      */
     public Game(int height, int width, String serializedBoard) {
         this.board = new Board(height, width, serializedBoard);
-        this.bombs = board.getBombs();
-
-//        System.out.println(board.exportBoard());
+        startGame();
     }
 
     /**
      * Initializes board or difficulty. Probably main constructor of class.
      *
-     * @param difficulty
+     * @param difficulty Difficulty of board, from enum class Difficulty
      */
     public Game(Difficulty difficulty) {
         if (difficulty == Difficulty.EASY) {
@@ -55,53 +50,57 @@ public class Game {
         } else {
             throw new IllegalArgumentException("Unsupported Difficulty value passed");
         }
+        startGame();
 
-        this.bombs = board.getBombs();
 
     }
 
+    public void startGame() {
+        this.stats = new GameStats(board.getBombs());
+    }
+
+
     /**
-     * Used to click on tile by coordinate. Maybe deprecated if clicking happens straight to node.
+     * Used to click on tile by node.
      *
-     * @param x
-     * @param y
-     * @return
+     * @param n Node to be clicked.
+     * @return Returns false if game is lost because of click
      */
-    public boolean clickTile(int x, int y) {
-        return board.clickTile(x, y);
+    public boolean clickNode(Node n) {
+        return board.revealNode(n);
     }
 
     /**
-     * @return
+     * @return Returns board of game
      */
     public Board getBoard() {
         return board;
     }
 
     /**
-     * Flags tile by coordinate. Maybe deprecated if flagging straight to board.
+     * Flags tile by node. Tells gamestats if node was flagged or unflagged.
      *
-     * @param x
-     * @param y
+     * @param n Node to be flagged
      */
     public void flagNode(Node n) {
-        this.flagged += board.flagNode(n);
+        this.stats.addToFlagged(board.flagNode(n));
     }
 
     /**
      * Returns true if boards winstate is true.
      *
-     * @return
+     * @return returns games win state
      */
     public boolean gameWon() {
         return board.hasGameBeenWon();
     }
 
-    public int getFlagged() {
-        return flagged;
+
+    public int getBombsLeft() {
+        return stats.getBombsLeft();
     }
 
-    public int getBombs() {
-        return bombs;
+    public long getTimeStarted() {
+        return stats.getTimeStarted();
     }
 }
