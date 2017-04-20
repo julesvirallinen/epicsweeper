@@ -3,7 +3,7 @@
 
 #### Subject
 
-Minesweeper game with some twists, probably mostly graphical
+Minesweeper game with some graphical twists. 
 
 #### Rules
  
@@ -15,40 +15,11 @@ Minesweeper game with some twists, probably mostly graphical
 - if a player clicks on a node that is not a bomb, the game reveals all nodes not near bombs, connected to clicked node
 - a revealed non-bomb node has the number of adjascent bombs, or is blank, if there are none. 
 
-### Special 
-
-The game is personified, either by an arbitrary story, or special graphics, like emoji. 
-
 ### Structure 
 
 #### UI
 
-At the moment the game can be played with a textUI, graphical coming soon. Looks something like this: 
-
-```
-Enter action and x, then y-coordinate, like this: click 1 0
-flag 8 7
-    0  1  2  3  4  5  6  7  8  9  
-    _  _  _  _  _  _  _  _  _  _  
-0|  ❑  1        1  ⚑  ❑  ❑  ❑  ❑  
-1|  ⚑  1        1  1  1  1  ❑  ❑  
-2|  1  1                 1  ⚑  ❑  
-3|        1  1  1        1  1  1  
-4|        1  ⚑  1                 
-5|        1  1  1        1  1  1  
-6|                       1  ❑  ❑  
-7|                       1  1  1  
-8|                                
-9|                                
-
-Enter action and x, then y-coordinate, like this: click 1 0
-flag 8 6
-Congrats, you won!
-```
-
-#### UML 
-
-![UML diagram](uml.png)
+The game has a graphical UI with which it can be played
 
 #### Game
 
@@ -57,6 +28,7 @@ Congrats, you won!
 - Has stats
 - Has it been won? 
 - Maybe easy - medium - hard 
+- Has GameStats for stats, and enum for difficulty 
 
 #### Node
 
@@ -69,3 +41,14 @@ Congrats, you won!
 
 - Time played
 - Bombs left unflagged
+
+#### UML 
+
+![UML diagram](uml.png)
+
+#### Usage diagrams 
+
+![started](Game is started.png)
+![bomb clicked](Player clicks bomb (1).png)
+![tile is flagged](Tile is flagged.png)
+

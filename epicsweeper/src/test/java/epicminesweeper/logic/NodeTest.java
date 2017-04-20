@@ -13,13 +13,13 @@ public class NodeTest {
     }
 
     @Test
-    public void createdNodeisHidden(){
+    public void createdNodeisHidden() {
         Node n = new Node(false);
         assertTrue(!n.isRevealed());
     }
 
     @Test
-    public void nodeToStringWorks(){
+    public void nodeToStringWorks() {
         Node b = new Node(true);
         b.setRevealed(true);
         Node r = new Node(false);
@@ -34,32 +34,30 @@ public class NodeTest {
     }
 
     @Test
-    public void toggleNodeReturnsZeroIfNotBomb(){
+    public void toggleNodeReturnsMinusOneIfNotBomb() {
         Node n = new Node(false);
-        assertTrue(n.toggleFlagged() == 0);
+        assertTrue(n.toggleFlagged() == -1);
     }
 
     @Test
-    public void toggleNodeReturnsOneIfBombIsFlagged(){
+    public void toggleNodeReturnsOneIfBombIsFlagged() {
         Node n = new Node(true);
         assertTrue(n.toggleFlagged() == 1);
     }
 
     @Test
-    public void toggleNodeReturnsMinusOneIfBombUnflagged(){
+    public void toggleNodeReturnsMinusOneIfBombUnflagged() {
         Node n = new Node(true);
         n.toggleFlagged();
         assertTrue(n.toggleFlagged() == -1);
     }
 
     @Test
-    public void isFlaggedWorks(){
+    public void isFlaggedWorks() {
         Node n = new Node(true);
         n.toggleFlagged();
         assertTrue(n.isFlagged());
     }
-
-
 
 
 }

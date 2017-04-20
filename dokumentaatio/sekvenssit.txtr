@@ -1,0 +1,61 @@
+title Player clicks bomb
+
+Player->Game: Click on bomb node
+Game->Board: revealNode(Node n)
+Board->Node: setRevealed
+Board->+Node: isBomb
+Node-->-Board: true
+Board->Node: setGameEnder(true)
+loop n
+    Board->Node: Reveal
+end
+
+Board-->-Game: false
+
+
+title Game is started
+
+Player->Game: Starts game
+Game->Board: new Board(x,y,b)
+loop n
+    Board->Node: new Node
+end
+loop n
+    Board->Node: Set adjacent 
+end
+loop b
+    Board->Node: Set as bomb 
+end
+Board->+Node: isBomb
+Node-->-Board: true
+Board->Node: setGameEnder(true)
+loop n
+    Board->Node: Reveal
+end
+
+Board-->-Game: false
+
+
+
+title Tile is flagged
+
+Player->Game: Flags tile
+Game->Board: flagNode(node)    
+Board->Node: toggleFlagged
+note right of Node: Node is flagged or unflagged
+alt bomb is flagged
+    Node-->Board: 1
+    Board-->Game: 1
+else bomb is unflagged
+    Node-->Board: -1
+    Board-->Game: -1
+else not bomb is flagged
+    Node-->Board: -1
+    Board-->Game:  1
+else not bomb is unflagged
+    Node-->Board:  1
+    Board-->Game:  -1
+
+end
+
+
