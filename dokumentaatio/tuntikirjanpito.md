@@ -13,4 +13,5 @@ Day | Hours | Description
 03.04      | 2h | refactoring from code review 
 06.04      | 1h | finishing up the week
 06.04      | 0.25h| Finishing javadocs
-08.04      |1h| Worked on GUI
+08.04      |2h| Worked on GUI
+20.04      | 4h| working on submission and refactoring 
