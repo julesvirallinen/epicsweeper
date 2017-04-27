@@ -8,6 +8,12 @@ open source emojis for graphics.
 
 [Uses emojis by emojiOne](https://emojione.com/)
 
+##### Usage
+
+Run game. Select difficulty. Logic of the game is same as traditional minesweeper!
+A tile will show how many bombs are adjascent to it. To win, click on all non-bomb tiles. 
+You can start a new game by clicking 'New Game'
+
 #### Documentation 
 
 [Link to description of project.](dokumentaatio/aiheenKuvausJaRakenne.md)

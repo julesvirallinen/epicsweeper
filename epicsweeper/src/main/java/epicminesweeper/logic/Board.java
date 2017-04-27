@@ -1,10 +1,8 @@
 package epicminesweeper.logic;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * x
@@ -31,13 +29,9 @@ public class Board {
      * @throws IllegalArgumentException if {@code bombs} is greater than the amount of nodes on the board, that is, {@code bombs > height*width}.
      */
 
-    public Board(int height, int width, int bombs) {
-        if (bombs > height * width) {
-            throw new IllegalArgumentException("Cannot place more bombs than nodes on the board");
-        }
-        init(height, width);
-        this.bombs = 0;
-        placeBombs(bombs);
+    Board(int height, int width, int bombs) {
+        BoardCreater bc = new BoardCreater(height, width, bombs);
+        getValues(bc);
     }
 
     // Creates board from seed, mostly for testing, maybe challenge levels?
@@ -51,9 +45,18 @@ public class Board {
      *                        ooo
      *                        ooo
      */
-    public Board(int height, int width, String serializedBoard) {
-        init(height, width);
-        createSerializedBoard(serializedBoard);
+    Board(int height, int width, String serializedBoard) {
+        BoardCreater bc = new BoardCreater(height, width, serializedBoard);
+        getValues(bc);
+
+    }
+
+    private void getValues(BoardCreater boardCreater) {
+        this.nodes = boardCreater.getNodes();
+        this.adjacent = boardCreater.getAdjacent();
+        this.height = boardCreater.getHeight();
+        this.width = boardCreater.getWidth();
+        this.bombs = boardCreater.getBombs();
     }
 
     /**
@@ -63,109 +66,6 @@ public class Board {
      * @param height height of board to be created
      * @param width  width of board to be created
      */
-    private void init(int height, int width) {
-        height = Math.max(1, height);
-        width = Math.max(1, width);
-        this.height = height;
-        this.width = width;
-        this.nodes = new Node[width][height];
-        this.adjacent = new HashMap<>();
-        initNodes();
-    }
-
-    /**
-     * Creates board from serial. If next letter is x, next node is bomb.
-     */
-    private void createSerializedBoard(String seed) {
-        foreachCell((w, h, i) -> {
-            if (seed.charAt(i) == 'x') {
-                setNodeAsBomb(nodes[w][h]);
-            }
-        });
-    }
-
-    /**
-     * Creates the nodes for the game, then calls setSingleAdjacent for each Node.
-     */
-    private void initNodes() {
-        foreachCell((w, h) -> nodes[w][h] = new Node(false));
-        foreachCell(this::setSingleAdjacent);
-    }
-
-    /**
-     * Creates an array of adjacent nodes for each node.
-     *
-     * @param w width coordinate of node to be handled
-     * @param h height coordinate
-     */
-
-    private void setSingleAdjacent(int w, int h) {
-        ArrayList<Node> adj = new ArrayList<>();
-        for (int a = -1; a <= 1; a++) {
-            for (int b = -1; b <= 1; b++) {
-                if (a == 0 && b == 0) {
-                    continue;
-                }
-                if (w + a < 0 || w + a > width - 1 || h + b < 0 || h + b > height - 1) {
-                    continue;
-                }
-                adj.add(nodes[w + a][h + b]);
-            }
-        }
-        this.adjacent.put(nodes[w][h], adj);
-    }
-
-    /**
-     * Places correct amount of bombs on board. Gets random coordinates, tries to change to bomb.
-     * If node is already a bomb, gets new coordinates.
-     */
-    private void placeBombs(int amount) {
-        for (int i = 0; i < amount; i++) {
-            int[] location = rnd();
-            Node n = nodes[location[0]][location[1]];
-            if (n.isBomb()) {
-                i--;
-                continue;
-            }
-            setNodeAsBomb(n);
-        }
-    }
-
-    /**
-     * Generates random coordinates for placing bombs.
-     *
-     * @return array with coordinates
-     */
-
-    private int[] rnd() {
-        int[] locations = new int[2];
-        locations[0] = ThreadLocalRandom.current().nextInt(0, width);
-        locations[1] = ThreadLocalRandom.current().nextInt(0, height);
-        return locations;
-    }
-
-    /**
-     * Sets single node as bomb. Increases the amount of adjascent bombs for nearby nodes.
-     *
-     * @param n Node to be set
-     */
-    private void setNodeAsBomb(Node n) {
-        n.setBomb(true);
-        increaseNearbyCounts(n);
-        bombs++;
-    }
-
-    /**
-     * Increases the amount of adjascent bombs in nearby nodes.
-     *
-     * @param node to increase for.
-     */
-
-    private void increaseNearbyCounts(Node node) {
-        for (Node n : adjacent.get(node)) {
-            n.increaseAdjBombs();
-        }
-    }
 
 
     /**
@@ -180,7 +80,7 @@ public class Board {
     }
 
     /**
-     * Reveals node
+     * Reveals single node.
      *
      * @param n Node to be revealed
      * @return Returns false if node was bomb
@@ -214,12 +114,12 @@ public class Board {
     }
 
     /**
-     * Calculates if game has been won
+     * Calculates if game has been won.
      *
      * @return true if game has been won
      */
     public boolean hasGameBeenWon() {
-        return correctlyFlagged == bombs || (width * height) - revealed == bombs;
+        return (width * height) - revealed == bombs;
     }
 
     /**
@@ -227,13 +127,15 @@ public class Board {
      *
      * @return list of nodes.
      */
-    public List<Node> getListOfNodes() {
+    List<Node> getListOfNodes() {
         ArrayList<Node> n = new ArrayList<>();
         foreachCell((w, h) -> n.add(nodes[w][h]));
         return n;
     }
 
     /**
+     * Returns array of all nodes.
+     *
      * @return Returns array of nodes
      */
     public Node[][] getNodes() {
@@ -246,7 +148,7 @@ public class Board {
      * @param gameMode For exporting with bombs showing or hidden
      * @return String of game
      */
-    public String exportBoard(Boolean gameMode) {
+    String exportBoard(Boolean gameMode) {
         StringBuilder sb = new StringBuilder();
         foreachCell((w, h) -> {
             Node n = nodes[w][h];
@@ -262,14 +164,16 @@ public class Board {
     }
 
     /**
-     * @return
+     * Returns amount of bombs in game.
+     *
+     * @return Amount of bombs
      */
-    public int getBombs() {
+    int getBombs() {
         return bombs;
     }
 
     /**
-     * Used for testing, flags by coordinate
+     * Used for testing, flags by coordinate.
      *
      * @param x x-coord
      * @param y y-coord
@@ -282,22 +186,26 @@ public class Board {
      * Returns 1/-1 depending on if tile was already flagged.
      * Also keeps track of correctly flagged nodes in game.
      *
-     * @param node
+     * @param node Node to be flagged.
+     * @return -1 if node was already flagged, 1 if newly flagged, to keep count of flagged nodes.
      */
     public int flagNode(Node node) {
         correctlyFlagged += node.toggleFlagged();
-        return node.isFlagged() ? 1 : -1;
+        return node.getFlagged() ? 1 : -1;
     }
 
-    /**
-     * @return
+    /** Width getter.
+     *
+     * @return width of board
      */
     public int getWidth() {
         return width;
     }
 
     /**
-     * @return
+     * Height getter.
+     *
+     * @return height of board
      */
     public int getHeight() {
         return height;

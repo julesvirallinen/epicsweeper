@@ -1,7 +1,7 @@
 package epicminesweeper.logic;
 
 /**
- * Manages stats for a game
+ * Manages stats for a game.
  *
  * @author Julius Uusinarkaus
  */
@@ -32,7 +32,8 @@ public class GameStats {
     }
 
     /**
-     * Returns amount of bombs left on board
+     * Returns amount of bombs left on board.
+     *
      * @return Bombs left on board
      */
     public int getBombsLeft() {
@@ -40,7 +41,8 @@ public class GameStats {
     }
 
     /**
-     * Returns time game was started
+     * Returns time game was started.
+     *
      * @return long time game started
      */
     public long getTimeStarted() {

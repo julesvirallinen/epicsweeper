@@ -15,3 +15,4 @@ Day | Hours | Description
 06.04      | 0.25h| Finishing javadocs
 08.04      |2h| Worked on GUI
 20.04      | 4h| working on submission and refactoring 
+27.04 | 5h| Coding GUI, working on submission. 

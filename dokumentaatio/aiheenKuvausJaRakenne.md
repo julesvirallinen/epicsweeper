@@ -17,6 +17,11 @@ Minesweeper game with some graphical twists.
 
 ### Structure 
 
+The structure is rather simple: There is a main Game class, which is responsible for the game. 
+It has a GameStats class which knows stats about the game, and a Board-class, which takes care of the logic. 
+The Board also has Node-instances which are responsible for the individual game Nodes. 
+The Board creates a BoardCreater, which initializes the board. 
+
 #### UI
 
 The game has a graphical UI with which it can be played

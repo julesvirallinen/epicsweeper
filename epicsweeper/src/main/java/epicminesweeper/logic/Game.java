@@ -46,7 +46,7 @@ public class Game {
         } else if (difficulty == Difficulty.INTERMEDIATE) {
             this.board = new Board(20, 20, 40);
         } else if (difficulty == Difficulty.HARD) {
-            this.board = new Board(30, 30, 200);
+            this.board = new Board(25, 25, 50);
         } else {
             throw new IllegalArgumentException("Unsupported Difficulty value passed");
         }
@@ -55,7 +55,8 @@ public class Game {
 
     }
 
-    public void startGame() {
+
+    private void startGame() {
         this.stats = new GameStats(board.getBombs());
     }
 
@@ -71,6 +72,8 @@ public class Game {
     }
 
     /**
+     * Getter for the board.
+     *
      * @return Returns board of game
      */
     public Board getBoard() {

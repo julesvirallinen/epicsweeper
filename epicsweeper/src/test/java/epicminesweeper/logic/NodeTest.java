@@ -56,7 +56,7 @@ public class NodeTest {
     public void isFlaggedWorks() {
         Node n = new Node(true);
         n.toggleFlagged();
-        assertTrue(n.isFlagged());
+        assertTrue(n.getFlagged());
     }
 
 

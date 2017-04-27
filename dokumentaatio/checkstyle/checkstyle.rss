@@ -25,7 +25,7 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2017</copyright>
     <item>
-      <title>File: 8,
+      <title>File: 9,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -130,7 +130,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#epicminesweeper.textui.TextUI.java">epicminesweeper/textui/TextUI.java</a>
+                  <a href="${project.url}/checkstyle.html#epicminesweeper.logic.GameStats.java">epicminesweeper/logic/GameStats.java</a>
                 </td>
                 <td>
                   0
@@ -145,6 +145,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#epicminesweeper.logic.Node.java">epicminesweeper/logic/Node.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#epicminesweeper.logic.BoardCreater.java">epicminesweeper/logic/BoardCreater.java</a>
                 </td>
                 <td>
                   0

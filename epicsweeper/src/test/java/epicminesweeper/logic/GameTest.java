@@ -49,9 +49,21 @@ public class GameTest {
     }
 
     @Test
-    public void gameStartedTimeCorrect(){
+    public void gameStartedTimeCorrect() {
         Game g = new Game(1, 1, 1);
-        assertTrue(System.currentTimeMillis()-g.getTimeStarted() < 10);
+        assertTrue(System.currentTimeMillis() - g.getTimeStarted() < 10);
+    }
+
+    @Test
+    public void gameIsStartedWithCorrectSize() {
+        Game g = new Game(Difficulty.EASY);
+        assertTrue(g.getBoard().getListOfNodes().size() == 100);
+
+        Game d = new Game(Difficulty.INTERMEDIATE);
+        assertTrue(d.getBoard().getListOfNodes().size() == 400);
+
+        Game f = new Game(Difficulty.HARD);
+        assertTrue(f.getBoard().getListOfNodes().size() == 625);
     }
 
 

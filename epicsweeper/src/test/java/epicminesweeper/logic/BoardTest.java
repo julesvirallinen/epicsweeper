@@ -81,6 +81,8 @@ public class BoardTest {
         assertTrue(b.exportBoard(true).equals("❑❑❑1❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑❑"));
     }
 
+/*  Removed because this might be against traditional minesweeper rules.
+
     @Test
     public void gameIsWonIfAllBombsFlagged() {
         Board b = new Board(4, 4, "" +
@@ -89,16 +91,16 @@ public class BoardTest {
                 "oooo" +
                 "xoox");
         assertFalse(b.hasGameBeenWon());
-        b.flagTile(0,0);
+        b.flagTile(0, 0);
         b.flagTile(3, 0);
         b.flagTile(0, 3);
         assertFalse(b.hasGameBeenWon());
         b.flagTile(3, 3);
         assertTrue(b.hasGameBeenWon());
-    }
+    }*/
 
     @Test
-    public void GameIsWonIfAllNonBombNodesHaveBeenRevealed(){
+    public void GameIsWonIfAllNonBombNodesHaveBeenRevealed() {
         Board b = new Board(2, 2, "oxoo");
         assertFalse(b.hasGameBeenWon());
         b.clickTile(0, 0);
@@ -109,7 +111,7 @@ public class BoardTest {
     }
 
     @Test
-    public void clickingOnBombRevealsBoard(){
+    public void clickingOnBombRevealsBoard() {
         Board b = new Board(4, 4, "xooxooooooooooox");
         b.clickTile(0, 0);
         for (Node n : b.getListOfNodes()) {
@@ -126,6 +128,18 @@ public class BoardTest {
                 "oooo");
         b.clickTile(0, 0);
         assertTrue(b.exportBoard(true).equals("0000000000000000"));
+    }
+
+
+    @Test
+    public void gameHasBeenWonWhenNoBomnbsLeft() {
+        Board b = new Board(4, 4, "" +
+                "ooox" +
+                "oooo" +
+                "oooo" +
+                "oooo");
+        b.clickTile(0, 0);
+        assertTrue(b.hasGameBeenWon());
     }
 
     public Board boardFactory(int h, int w, int b) {

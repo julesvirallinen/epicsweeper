@@ -44,7 +44,7 @@ public class JNode extends JLabel {
 
         if (node.isRevealed()) {
             setBackground(Color.WHITE);
-            if (node.isGameEnder()) {
+            if (node.getGameEnder()) {
                 setImage("boom");
             } else if (node.isBomb()) {
                 setImage("bomb");
@@ -55,7 +55,7 @@ public class JNode extends JLabel {
 //                setImage(node.getAdjBombs() + "");
                 setText(node.toString());
             }
-        } else if (node.isFlagged()) {
+        } else if (node.getFlagged()) {
             setImage("flag");
         }
     }

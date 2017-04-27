@@ -23,6 +23,10 @@ public class MainGui {
     private long startTime;
     private Timer sTimer;
 
+    /**
+     * Initializes the GUI.
+     */
+
     public MainGui() {
         init();
 
@@ -40,19 +44,52 @@ public class MainGui {
 
     }
 
-
-    private void startGame(ActionEvent e) {
-        createGameBoard();
+    /**
+     * Creates difficulty selection window.
+     * creates game, board, and starts timer.
+     */
+    private void startGame() {
+        difficultySelection();
         createTopPanel();
         updateBoard();
         frame.pack();
 
         this.sTimer = new Timer(500, e1 -> timer.setText((System.currentTimeMillis() - startTime) / 1000 + ""));
         sTimer.start();
+    }
 
+    /**
+     * The same as above, but with actionlsitener.
+     */
+    private void startGame(ActionEvent e) {
+        this.startGame();
+    }
+
+    /**
+     * Creates option window for difficulty, and starts a new game with said difficulty.
+     */
+
+    private void difficultySelection() {
+        Object[] options = {
+            "Easy",
+            "Intermediate",
+            "Difficult!"};
+        int n = JOptionPane.showOptionDialog(frame,
+                "Please select difficulty",
+                "Difficulty",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[2]);
+
+        createGameBoard(n);
     }
 
 
+    /**
+     * Creates panel at bottom of screen, with new game button, and later stats about game.
+     */
     private void createTopPanel() {
 //        n.setPreferredSize(new Dimension(80, 30));
         this.bottomPanel = new JPanel();
@@ -73,8 +110,14 @@ public class MainGui {
     }
 
 
-    private void createGameBoard() {
-        this.game = new Game(Difficulty.INTERMEDIATE);
+    /**
+     * Draws the actual gameboard according do difficulty and logic.
+     *
+     * @param diff Difficulty of game to be created.
+     */
+    private void createGameBoard(int diff) {
+
+        this.game = new Game(diff == 0 ? Difficulty.EASY : diff == 1 ? Difficulty.INTERMEDIATE : Difficulty.HARD);
         this.startTime = game.getTimeStarted();
         frame.getContentPane().removeAll();
         Board b = game.getBoard();
@@ -101,21 +144,60 @@ public class MainGui {
         }
     }
 
-    public void updateBoard() {
+    /**
+     * Draws the game again after each play.
+     */
+
+    private void updateBoard() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 grid[i][j].updateNode();
             }
         }
         updateFlagged();
-
+        if (game.gameWon()) {
+            gameWon();
+        }
     }
+
+    /**
+     * Shows time played if game is won.
+     * Prompts to start new game.
+     */
+    private void gameWon() {
+        sTimer.stop();
+
+        Object[] options = {
+                "New Game",
+                "Quit"};
+        int n = JOptionPane.showOptionDialog(frame,
+                "Congrats, you won! Time: " + ((System.currentTimeMillis() - startTime) / 1000 + "") + " seconds.",
+                "Game won",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[1]);
+
+        if (n == 0) {
+            this.startGame();
+        } else {
+            frame.dispose();
+        }
+    }
+
+    /**
+     * Updates stats at bottom of screen.
+     */
 
     private void updateFlagged() {
         this.flagged.setText(game.getBombsLeft() + " | " + (game.gameWon() ? "Game won" : "Game not won") + "| ");
     }
 
-    public void clickNode(JNode node) {
+    /**
+     * Logic for clicking on a tile.
+     */
+    private void clickNode(JNode node) {
         if (!game.clickNode(node.getNode())) {
             sTimer.stop();
         }
@@ -123,11 +205,17 @@ public class MainGui {
 
     }
 
-    public void rightClickNode(JNode node) {
+    /**
+     * Logic for flagging (right clicking a node)
+     */
+    private void rightClickNode(JNode node) {
         game.flagNode(node.getNode());
         updateBoard();
     }
 
+    /**
+     * Mouselistener for clicking on nodes.
+     */
     private class MyMouseListener implements MouseListener {
 
         @Override
