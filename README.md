@@ -23,3 +23,5 @@ You can start a new game by clicking 'New Game'
 
 [Link to PIT report](https://htmlpreview.github.io/?https://github.com/julkku/epicsweeper/blob/master/dokumentaatio/pit/index.html)
 
+ [Link to javadoc](https://htmlpreview.github.io/?https://github.com/julkku/epicsweeper/blob/master/javadoc/allclasses-frame.html)
+
