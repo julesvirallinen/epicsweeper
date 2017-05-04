@@ -16,3 +16,4 @@ Day | Hours | Description
 08.04      |2h| Worked on GUI
 20.04      | 4h| working on submission and refactoring 
 27.04 | 5h| Coding GUI, working on submission. 
+4.5 | 3h | Finishing everything!

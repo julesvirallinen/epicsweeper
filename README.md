@@ -3,8 +3,7 @@
  
 #### Description
 
-Implementation of the classic game Minesweeper, with some graphical changes, including (maybe) a story mode, as well as 
-open source emojis for graphics. 
+Implementation of the classic game Minesweeper.
 
 [Uses emojis by emojiOne](https://emojione.com/)
 

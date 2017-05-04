@@ -42,7 +42,7 @@ public class Game {
      */
     public Game(Difficulty difficulty) {
         if (difficulty == Difficulty.EASY) {
-            this.board = new Board(10, 10, 5);
+            this.board = new Board(10, 10, 15);
         } else if (difficulty == Difficulty.INTERMEDIATE) {
             this.board = new Board(20, 20, 40);
         } else if (difficulty == Difficulty.HARD) {

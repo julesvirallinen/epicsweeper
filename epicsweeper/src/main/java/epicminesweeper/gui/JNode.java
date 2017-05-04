@@ -6,7 +6,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -63,7 +62,7 @@ public class JNode extends JLabel {
     public void setImage(String name) {
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File("src/main/resources/" + name + ".png"));
+            img = ImageIO.read(getClass().getResource("/" + name + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
